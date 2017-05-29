@@ -1,0 +1,11 @@
+version: '2'
+services:
+  dns_flare:
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - "EMAIL=<cloud flare email>"
+      - "ZONE_ID=<cloud flare zone id>"
+      - "TOKEN=<cloud flare api token>"
+      - "TARGET_DOMAIN=<cloud flare target domain>"
