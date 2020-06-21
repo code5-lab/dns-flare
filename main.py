@@ -7,8 +7,8 @@ from datetime import datetime
 def point_domain(name):
     try:
         r = cf.zones.dns_records.post(zone_id,
-                                      data={u'type': u'CNAME', u'name': name, u'content': target_domain, u'ttl': 120,
-                                            u'proxied': False})
+                                      data={u'type': u'CNAME', u'name': name, u'content': target_domain, u'ttl': ttl,
+                                            u'proxied': proxied})
     except CloudFlare.exceptions.CloudFlareAPIError as e:
         print '/zones.dns_records.post %s - %d %s' % (name, e, e)
 
@@ -48,6 +48,16 @@ try:
     target_domain = os.environ['TARGET_DOMAIN']
 except KeyError as e:
     exit('TARGET_DOMAIN not defined')
+
+try:
+    proxied = os.environ['PROXIED']
+except KeyError as e:
+    proxied = false
+
+try:
+    ttl = os.environ['TTL']
+except KeyError as e:
+    ttl = 120
 
 cf = CloudFlare.CloudFlare(email=email, token=token)
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
